@@ -6,6 +6,10 @@ let stopwatchMiliseconds = 99;
 const appendMinutes = document.querySelector('.minutes');
 const appendSeconds = document.querySelector('.seconds');
 const appendMiliseconds = document.querySelector('.miliSeconds');
+const userSubmitBtn = document.querySelector('.submitBtn');
+const userKeyboardDisplay = document.querySelector('.keyboardDisplay');
+const userTimerDisplay = document.querySelector('.timerDisplay');
+const userKeyboard = document.querySelector('.keyboardContainer')
 
 // STOPWATCH
 
@@ -54,62 +58,56 @@ function stopStopwatch() {
 
 // KEYBOARD 
 
-let displayArr = ['0', '0', '0', '0', '0', '0'];
-let digitsCount = 0;
+let userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
+let userArrayDigitsCount = 0;
 
-updateDisplay();
+updateUserDisplay();
 
-function appendToDisplay(value) {
-  if (value === '0' && displayArr.every(num => num === '0')) return;
+function appendUserDisplay(userTargetValue) {
+  if (userTargetValue === '0' && userArrayDisplay.every(num => num === '0')) return;
 
-  if (digitsCount < 6) {
-    displayArr.shift();
+  if (userArrayDigitsCount < 6) {
+    userArrayDisplay.shift();
+    userArrayDisplay.push(userTargetValue);
+    userArrayDigitsCount++;
 
-    displayArr.push(value);
-
-    digitsCount++
-
-    updateDisplay();
+    updateUserDisplay();
   };
 
-  if (digitsCount > 0) {
-    document.querySelector('.submitBtn').style.display = 'block';
-  } else {
-    document.querySelector('.submitBtn').style.display = 'none';
-  };
+  if (userArrayDigitsCount > 0) return userSubmitBtn.style.display = 'block';
+
+  userSubmitBtn.style.display = 'none';
 };
 
-function updateDisplay() {
-  document.querySelector('.keyboardDisplay').innerText =
-    displayArr.slice(0, 2).join('') + 'h ' +
-    displayArr.slice(2, 4).join('') + 'm ' +
-    displayArr.slice(4, 6).join('') + 's';
+function updateUserDisplay() {
+  userKeyboardDisplay.innerText =
+    userArrayDisplay.slice(0, 2).join('') + 'h ' +
+    userArrayDisplay.slice(2, 4).join('') + 'm ' +
+    userArrayDisplay.slice(4, 6).join('') + 's';
 };
 
 function deleteLast() {
-  displayArr.pop();
+  userArrayDisplay.pop();
 
-  displayArr.unshift('0');
+  userArrayDisplay.unshift('0');
 
-  digitsCount--;
+  userArrayDigitsCount--;
 
-  updateDisplay();
+  updateUserDisplay();
 
-  if (digitsCount > 0) {
-    document.querySelector('.submitBtn').style.display = 'block';
-  } else {
-    document.querySelector('.submitBtn').style.display = 'none';
-  };
+  if (userArrayDigitsCount > 0) return userSubmitBtn.style.display = 'block';
+
+  userSubmitBtn.style.display = 'none';
 };
 
 function resetDisplay() {
-  displayArr = ['0', '0', '0', '0', '0', '0'];
+  userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
 
-  digitsCount = 0;
+  userArrayDigitsCount = 0;
 
-  updateDisplay();
+  updateUserDisplay();
 
-  document.querySelector('.submitBtn').style.display = 'none';
+  userSubmitBtn.style.display = 'none';
 };
 
 // TIMER 
@@ -117,7 +115,7 @@ function resetDisplay() {
 function createTimer() {
   document.querySelector('.keyboardContainer').style.display = 'none';
 
-  let timerValue = displayArr.join('');
+  let timerValue = userArrayDisplay.join('');
   let timerHours = Math.floor(timerValue / 10000);
   let timerMinutes = Math.floor((timerValue % 10000) / 100);
   let timerSeconds = timerValue % 100;
@@ -220,12 +218,17 @@ function createTimer() {
     };
   };
 
+  let userTimerDisplay = document.querySelector('.timerDisplay')
+
   function updateTimer() {
-    document.querySelector('.timerDisplay').innerText = `${String(timerHours).padStart(2, '0')}:${String(timerMinutes).padStart(2, '0')}:${String(timerSeconds).padStart(2, '0')}`;
+    userTimerDisplay.innerText = `${String(timerHours).padStart(2, '0')}:${String(timerMinutes).padStart(2, '0')}:${String(timerSeconds).padStart(2, '0')}`;
   };
 
   function timerAddMinute() {
+    timerMinutes = parseInt(timerMinutes);
+    
     timerMinutes += 1;
+
     updateTimer();
   };
 
@@ -250,18 +253,18 @@ function createTimer() {
 
     parentEl.remove();
 
-    document.querySelector('.keyboardContainer').style.display = 'block';
+    userKeyboard.style.display = 'block';
 
     resetTimer()
   };
 
-  displayArr = ['0', '0', '0', '0', '0', '0'];
+  userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
 
-  digitsCount = 0;
+  userArrayDigitsCount = 0;
 
-  updateDisplay();
+  updateUserDisplay();
 
-  document.querySelector('.submitBtn').style.display = 'none';
+  userSubmitBtn.style.display = 'none';
 };
 
 // MENU TOGGLE
