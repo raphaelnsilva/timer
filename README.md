@@ -4,7 +4,7 @@
 
 The project consists of a web application for managing stopwatches and timers. 
 It allows users to use a stopwatch and a timer, providing a user-friendly interface for configuration and control. 
-The project consists of three main parts: HTML, CSS, and JavaScript and the project is inspired by Android features
+The project consists of three main parts: HTML, CSS, and JavaScript.
 
 <div align="center">
   <img src="https://github.com/raphaelnsilva/timer/assets/129803784/37a6b124-a5ee-43df-b6c7-edea6cdaae0c" width="700px" />
