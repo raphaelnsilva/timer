@@ -1,8 +1,3 @@
-let Interval;
-let timer;
-let stopwatchMinutes = 0;
-let stopwatchSeconds = 0;
-let stopwatchMiliseconds = 99;
 const appendMinutes = document.querySelector('.minutes');
 const appendSeconds = document.querySelector('.seconds');
 const appendMiliseconds = document.querySelector('.miliSeconds');
@@ -11,21 +6,18 @@ const userKeyboardDisplay = document.querySelector('.keyboardDisplay');
 const userTimerDisplay = document.querySelector('.timerDisplay');
 const userKeyboard = document.querySelector('.keyboardContainer')
 
+let stopwatchMinutes = 0;
+let stopwatchSeconds = 0;
+let stopwatchMiliseconds = 0;
+
+let stopwatch;
+let timer;
+
 // STOPWATCH
 
-function resetStopwatch() {
-  clearInterval(Interval);
-  stopwatchMiliseconds = 99;
-  stopwatchSeconds = 0;
-  stopwatchMinutes = 0;
-  appendMiliseconds.innerHTML = '00';
-  appendSeconds.innerHTML = '00';
-  appendMinutes.innerHTML = '00';
-}
-
 function startStopwatchtimer() {
-  clearInterval(Interval);
-  Interval = setInterval(startTimer, 10);
+  clearInterval(stopwatch);
+  stopwatch = setInterval(startTimer, 10);
 
   function startTimer() {
     stopwatchMiliseconds++;
@@ -52,8 +44,18 @@ function startStopwatchtimer() {
   };
 };
 
+function resetStopwatch() {
+  clearInterval(stopwatch);
+  stopwatchMiliseconds = 99;
+  stopwatchSeconds = 0;
+  stopwatchMinutes = 0;
+  appendMiliseconds.innerHTML = '00';
+  appendSeconds.innerHTML = '00';
+  appendMinutes.innerHTML = '00';
+}
+
 function stopStopwatch() {
-  clearInterval(Interval);
+  clearInterval(stopwatch);
 };
 
 // KEYBOARD 
@@ -159,7 +161,7 @@ function createTimer() {
   const resetTimerBtn = document.createElement('button');
   resetTimerBtn.classList.add('resetTimer');
   resetTimerBtn.innerHTML = '<i class="fa-solid fa-rotate-left"></i>';
-  resetTimerBtn.addEventListener('click', resetTimer);
+  resetTimerBtn.addEventListener('click', closeTimer);
   timerContainer.appendChild(resetTimerBtn);
 
   const toolbar = document.createElement('div');
@@ -238,15 +240,6 @@ function createTimer() {
     timer = null;
   };
 
-  function resetTimer() {
-    clearInterval(timer);
-    timer = null;
-    timerHours = 0;
-    timerMinutes = 0;
-    timerSeconds = 0;
-    updateTimer();
-  };
-
   function closeTimer(e) {
     const targetEl = e.target;
     const parentEl = targetEl.closest('article');
@@ -254,8 +247,6 @@ function createTimer() {
     parentEl.remove();
 
     userKeyboard.style.display = 'block';
-
-    resetTimer()
   };
 
   userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
