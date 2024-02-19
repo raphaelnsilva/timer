@@ -27,7 +27,7 @@ body {
   justify-content: center;
   gap: 2rem;
   align-items: center;
-  height: 74px;
+  height: 78px;
 }
 
 .nav i {
@@ -198,6 +198,10 @@ body {
   border-radius: 14px;
 }
 
+.displayHover {
+  color: #5D82F2;
+}
+
 .myButton {
   width: 66px;
   height: 46px;
@@ -207,7 +211,6 @@ body {
 }
 
 .keyboardDisplay {
-  color: #fff;
   text-align: center;
   margin-bottom: 10px;
   font-size: 36px;
@@ -263,5 +266,3 @@ body {
   justify-content: center;
   margin: 10px 0;
 }
-
-

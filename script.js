@@ -6,8 +6,6 @@ let stopwatchMiliseconds = 99;
 const appendMinutes = document.querySelector('.minutes');
 const appendSeconds = document.querySelector('.seconds');
 const appendMiliseconds = document.querySelector('.miliSeconds');
-const resetBtn = document.querySelector('.resetBtn');
-const submitBtn = document.querySelector('.submitBtn');
 
 // STOPWATCH
 
@@ -56,7 +54,6 @@ function stopStopwatch() {
 
 // KEYBOARD 
 
-const keyboardDisplay = document.querySelector('.keyboardDisplay');
 let displayArr = ['0', '0', '0', '0', '0', '0'];
 let digitsCount = 0;
 
@@ -76,15 +73,17 @@ function appendToDisplay(value) {
   };
 
   if (digitsCount > 0) {
-    submitBtn.style.display = 'block';
+    document.querySelector('.submitBtn').style.display = 'block';
   } else {
-    submitBtn.style.display = 'none';
+    document.querySelector('.submitBtn').style.display = 'none';
   };
 };
 
-
 function updateDisplay() {
-  keyboardDisplay.innerText = displayArr.slice(0, 2).join('') + 'h ' + displayArr.slice(2, 4).join('') + 'm ' + displayArr.slice(4, 6).join('') + 's';
+  document.querySelector('.keyboardDisplay').innerText =
+    displayArr.slice(0, 2).join('') + 'h ' +
+    displayArr.slice(2, 4).join('') + 'm ' +
+    displayArr.slice(4, 6).join('') + 's';
 };
 
 function deleteLast() {
@@ -97,9 +96,9 @@ function deleteLast() {
   updateDisplay();
 
   if (digitsCount > 0) {
-    submitBtn.style.display = 'block';
+    document.querySelector('.submitBtn').style.display = 'block';
   } else {
-    submitBtn.style.display = 'none';
+    document.querySelector('.submitBtn').style.display = 'none';
   };
 };
 
@@ -110,7 +109,7 @@ function resetDisplay() {
 
   updateDisplay();
 
-  submitBtn.style.display = 'none';
+  document.querySelector('.submitBtn').style.display = 'none';
 };
 
 // TIMER 
@@ -250,7 +249,10 @@ function createTimer() {
     const parentEl = targetEl.closest('article');
 
     parentEl.remove();
+
     document.querySelector('.keyboardContainer').style.display = 'block';
+
+    resetTimer()
   };
 
   displayArr = ['0', '0', '0', '0', '0', '0'];
@@ -259,7 +261,7 @@ function createTimer() {
 
   updateDisplay();
 
-  submitBtn.style.display = 'none';
+  document.querySelector('.submitBtn').style.display = 'none';
 };
 
 // MENU TOGGLE
