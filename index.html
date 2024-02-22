@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Time</title>
+  <title>Timer</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
@@ -16,50 +16,50 @@
   <main class="main">
     <header class="header">
       <nav class="nav">
-        <button class="stopwatchBtn" onclick="showPage(1)">
-          <div id="button1"><i class="fa-solid fa-stopwatch"></i></div>
+        <button class="stopwatchNavBtn">
+          <div class="stopwatchIcon"><i class="fa-solid fa-stopwatch"></i></div>
           <div>Cronômetro</div>
         </button>
-        <button class="timerBtn" onclick="showPage(2)">
-          <div id="button2"><i class="fa-solid fa-hourglass-end"></i></div>
+        <button class="timerNavBtn">
+          <div class="timerIcon"><i class="fa-solid fa-hourglass-end"></i></div>
           <div>Timer</div>
         </button>
       </nav>
     </header>
     <section id="stopwatch" class="stopwatchContainer">
       <div class="stopwatchDisplay">
-        <span class="minutes">00</span>:
-        <span class="seconds">00</span>:
-        <span class="miliSeconds">00</span>
+        <span class="stopwatchMinutes">00</span>:
+        <span class="stopwatchSeconds">00</span>:
+        <span class="stopwatchMiliSeconds">00</span>
       </div>
-      <button class="resetTimer" onclick="resetStopwatch()"><i class="fa-solid fa-rotate-left"></i></button>
+      <button class="resetStopwatch"><i class="fa-solid fa-rotate-left"></i></button>
       <div class="toolbar">
-        <button class="startTimer myButton" onclick="startStopwatchtimer()"><i class="fa-solid fa-play"></i></button>
-        <button class="stopTimer myButton" onclick="stopStopwatch()"><i class="fa-solid fa-pause"></i></button>
+        <button class="startStopwatch"><i class="fa-solid fa-play"></i></button>
+        <button class="stopStopwatch"><i class="fa-solid fa-pause"></i></button>
       </div>
     </section>
     <section id="timer" class="timerSection">
       <div class="keyboardContainer">
         <div class="keyboardDisplay">00h 00m 00s</div>
         <div class="keyboard">
-          <input class="key" value="1" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="2" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="3" type="button" onclick="appendUserDisplay(value)"/>
+          <input class="key" value="1" type="button"/>
+          <input class="key" value="2" type="button"/>
+          <input class="key" value="3" type="button"/>
           <br>
-          <input class="key" value="4" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="5" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="6" type="button" onclick="appendUserDisplay(value)"/>
+          <input class="key" value="4" type="button"/>
+          <input class="key" value="5" type="button"/>
+          <input class="key" value="6" type="button"/>
           <br>
-          <input class="key" value="7" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="8" type="button" onclick="appendUserDisplay(value)"/>
-          <input class="key" value="9" type="button" onclick="appendUserDisplay(value)"/>
+          <input class="key" value="7" type="button"/>
+          <input class="key" value="8" type="button"/>
+          <input class="key" value="9" type="button"/>
           <br>
-          <button class="key resetBtn" onclick="resetDisplay()"><i class="fa-solid fa-rotate-right"></i></button>
-          <input class="key" value="0" type="button" onclick="appendUserDisplay(value)"/>
-          <button class="key deleteBtn" onclick="deleteLast()"><i class="fa-solid fa-delete-left"></i></button>
+          <button class="resetBtn"><i class="fa-solid fa-rotate-right"></i></button>
+          <input class="key" value="0" type="button"/>
+          <button class="deleteBtn"><i class="fa-solid fa-delete-left"></i></button>
         </div>
         <div class="timerBtns">
-          <button class="submitBtn" onclick="createTimer()"><i class="fa-solid fa-play"></i></button>
+          <button class="submitBtn"><i class="fa-solid fa-play"></i></button>
         </div>
       </div>
     </section>    

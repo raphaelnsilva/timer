@@ -40,8 +40,8 @@ body {
   font-weight: 600;
 }
 
-.timerBtn,
-.stopwatchBtn {
+.timerNavBtn,
+.stopwatchNavBtn {
   border: none;
   background: transparent;
   color: white;
@@ -81,10 +81,11 @@ body {
 }
 
 .stopwatchDisplay span {
-  width: 60px;
+  width: 55px;
+  overflow: hidden;
 }
 
-.resetTimer {
+.resetStopwatch {
   background-color: transparent;
   border: none;
   color: #5D82F2;
@@ -93,7 +94,7 @@ body {
   cursor: pointer;
 }
 
-.resetTimer:hover {
+.resetStopwatch:hover {
   transform: rotate(-25deg);
 }
 
@@ -103,25 +104,35 @@ body {
   justify-content: space-evenly;
 }
 
-.startTimer {
+.startStopwatch {
   background-color: #50d13c;
   border: none;
   color: #2f2f2f;
   transition-duration: 0.2s;
+  width: 66px;
+  height: 46px;
+  border-radius: 37px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.startTimer:hover {
+.startStopwatch:hover {
   background-color: #86be7d;
 }
 
-.stopTimer {
+.stopStopwatch {
   background-color: #adadad;
   border: none;
   color: #2f2f2f;
   transition-duration: 0.2s;
+  width: 66px;
+  height: 46px;
+  border-radius: 37px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.stopTimer:hover {
+.stopStopwatch:hover {
   background-color: #888888;
 }
 
@@ -165,11 +176,19 @@ body {
 }
 
 .timerDisplay {
+  display: flex;
+  justify-content: center;
+  text-align: center;
   font-size: 50px;
-  color: #fff;
+  color: #ffffff;
 }
 
-.accTimerBtn {
+.timerDisplay span {
+  width: 55px;
+  overflow: hidden;
+}
+
+.accTimer {
   background: transparent;
   display: none;
   border: none;
@@ -177,9 +196,15 @@ body {
   color: #ffffff;
   font-weight: 600;
   transition-duration: 0.2s;
+
+  width: 66px;
+  height: 46px;
+  border-radius: 37px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
-.accTimerBtn:hover {
+.accTimer:hover {
   background-color: #3c4a7c;
 }
 
@@ -200,14 +225,6 @@ body {
 
 .displayHover {
   color: #5D82F2;
-}
-
-.myButton {
-  width: 66px;
-  height: 46px;
-  border-radius: 37px;
-  font-size: 14px;
-  cursor: pointer;
 }
 
 .keyboardDisplay {
@@ -232,10 +249,30 @@ body {
 }
 
 .deleteBtn {
+  width: 70px;
+  height: 70px;
+  font-size: 22px;
+  margin: 1px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  color: #fff;
   background-color: #ce1d1d;
 }
 
 .resetBtn {
+  width: 70px;
+  height: 70px;
+  font-size: 22px;
+  margin: 1px;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  background-color: #2f2f2f;
   color: #5D82F2;
 }
 
@@ -248,6 +285,7 @@ body {
   background-color: #4B5C99;
   color: #fff;
   font-size: 22px;
+  cursor: pointer;
 }
 
 .cancelBtn {
@@ -265,4 +303,45 @@ body {
   align-items: center;
   justify-content: center;
   margin: 10px 0;
+}
+
+.resetTimer {
+  background-color: transparent;
+  border: none;
+  color: #5D82F2;
+  font-size: 24px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.startTimer {
+  background-color: #50d13c;
+  border: none;
+  color: #2f2f2f;
+  transition-duration: 0.2s;
+  width: 66px;
+  height: 46px;
+  border-radius: 37px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.startTimer:hover {
+  background-color: #86be7d;
+}
+
+.stopTimer {
+  background-color: #adadad;
+  border: none;
+  color: #2f2f2f;
+  transition-duration: 0.2s;
+  width: 66px;
+  height: 46px;
+  border-radius: 37px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.stopTimer:hover {
+  background-color: #888888;
 }
