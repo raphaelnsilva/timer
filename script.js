@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.stopwatchMinutes').textContent = stopwatchMinutes.toString().padStart(2, '0');
     document.querySelector('.stopwatchSeconds').textContent = stopwatchSeconds.toString().padStart(2, '0');
     document.querySelector('.stopwatchMiliSeconds').textContent = stopwatchMiliseconds.toString().padStart(2, '0');
-    
   }
 
   const startStopwatch = () => {
