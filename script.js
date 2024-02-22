@@ -58,82 +58,10 @@ function stopStopwatch() {
   clearInterval(stopwatch);
 };
 
-// KEYBOARD 
-
-let userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
-let userArrayDigitsCount = 0;
-
-updateUserDisplay();
-
-function appendUserDisplay(userTargetValue) {
-  if (userTargetValue === '0' && userArrayDisplay.every(num => num === '0')) return;
-
-  if (userArrayDigitsCount < 6) {
-    userArrayDisplay.shift();
-    userArrayDisplay.push(userTargetValue);
-    userArrayDigitsCount++;
-
-    updateUserDisplay();
-  };
-
-  if (userArrayDigitsCount > 0) return userSubmitBtn.style.display = 'block';
-
-  userSubmitBtn.style.display = 'none';
-};
-
-function updateUserDisplay() {
-  userKeyboardDisplay.innerText =
-    userArrayDisplay.slice(0, 2).join('') + 'h ' +
-    userArrayDisplay.slice(2, 4).join('') + 'm ' +
-    userArrayDisplay.slice(4, 6).join('') + 's';
-};
-
-function deleteLast() {
-  userArrayDisplay.pop();
-
-  userArrayDisplay.unshift('0');
-
-  userArrayDigitsCount--;
-
-  updateUserDisplay();
-
-  if (userArrayDigitsCount > 0) return userSubmitBtn.style.display = 'block';
-
-  userSubmitBtn.style.display = 'none';
-};
-
-function resetDisplay() {
-  userArrayDisplay = ['0', '0', '0', '0', '0', '0'];
-
-  userArrayDigitsCount = 0;
-
-  updateUserDisplay();
-
-  userSubmitBtn.style.display = 'none';
-};
-
 // TIMER 
 
-function createTimer() {
+function createTimer(hours, minutes, seconds) {
   document.querySelector('.keyboardContainer').style.display = 'none';
-
-  let timerValue = userArrayDisplay.join('');
-  let timerHours = Math.floor(timerValue / 10000);
-  let timerMinutes = Math.floor((timerValue % 10000) / 100);
-  let timerSeconds = timerValue % 100;
-
-  if (timerSeconds >= 60) {
-    timerMinutes += Math.floor(timerSeconds / 60);
-    timerSeconds %= 60;
-  };
-
-  if (timerMinutes >= 60) {
-    timerHours += Math.floor(timerMinutes / 60);
-    timerMinutes %= 60;
-  };
-
-  timerMinutes = timerMinutes < 10 ? "0" + timerMinutes : timerMinutes;
-  timerSeconds = timerSeconds < 10 ? "0" + timerSeconds : timerSeconds;
 
   const timerContainer = document.createElement('article');
   timerContainer.classList.add('timerContainer');
@@ -144,7 +72,7 @@ function createTimer() {
 
   const timerTitle = document.createElement('p');
   timerTitle.classList.add('timerTitle');
-  timerTitle.innerHTML = `Timer ${timerHours !== 0 ? `de ${timerHours}hrs e` : 'de'} ${timerMinutes}m`;
+  timerTitle.innerHTML = `Timer ${hours !== 0 ? `de ${hours}hrs e` : 'de'} ${minutes}m`;
   timerHeader.appendChild(timerTitle);
 
   const closeTimerBtn = document.createElement('button');
@@ -155,7 +83,7 @@ function createTimer() {
 
   const timerDisplay = document.createElement('div');
   timerDisplay.classList.add('timerDisplay');
-  timerDisplay.innerHTML = `${String(timerHours).padStart(2, '0')}:${String(timerMinutes).padStart(2, '0')}:${String(timerSeconds).padStart(2, '0')}`;
+  timerDisplay.innerHTML = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   timerContainer.appendChild(timerDisplay);
 
   const resetTimerBtn = document.createElement('button');
@@ -179,7 +107,6 @@ function createTimer() {
   startTimerBtn.classList.add('startTimer');
   startTimerBtn.classList.add('myButton');
   startTimerBtn.innerHTML = '<i class="fa-solid fa-play">';
-  startTimerBtn.addEventListener('click', startTimer);
   toolbar.appendChild(startTimerBtn);
 
   const stopTimer = document.createElement('button');
@@ -192,33 +119,6 @@ function createTimer() {
   const timerSection = document.querySelector('#timer');
 
   timerSection.appendChild(timerContainer);
-
-  function startTimer() {
-    document.querySelector('.accTimerBtn').style.display = 'block';
-
-    if (!timer) {
-      timer = setInterval(function () {
-        updateTimer();
-
-        if (timerSeconds <= 0 && timerMinutes <= 0 && timerHours <= 0) {
-          clearInterval(timer);
-          timer = null;
-          alert("Tempo esgotado!");
-        } else if (timerSeconds <= 0) {
-          if (timerMinutes > 0) {
-            timerMinutes--;
-            timerSeconds = 59;
-          } else if (timerHours > 0) {
-            timerHours--;
-            timerMinutes = 59;
-            timerSeconds = 59;
-          }
-        } else {
-          timerSeconds--;
-        }
-      }, 1000);
-    };
-  };
 
   let userTimerDisplay = document.querySelector('.timerDisplay')
 
@@ -257,6 +157,113 @@ function createTimer() {
 
   userSubmitBtn.style.display = 'none';
 };
+
+let arr = ['0', '0', '0', '0', '0', '0'];
+let digitsCount = 0;
+
+document.addEventListener('click', (e) => {
+  const targetEl = e.target;
+  const parentEl = targetEl.closest('button')
+    
+  if (targetEl.classList.contains('key')) {
+    const keyValue = targetEl.value;
+
+    if (keyValue === '0' && arr.every(num => num === '0')) return;
+
+    if (digitsCount < 6) {
+      arr.shift();
+      arr.push(keyValue);
+      digitsCount++;
+      updateUserDisplay()
+    };
+
+    if (digitsCount > 0) return userSubmitBtn.style.display = 'block';
+
+    userSubmitBtn.style.display = 'none';
+  };
+  
+  if (targetEl.classList.contains('submitBtn') || parentEl.classList.contains('submitBtn')) {
+    let timerValue = arr.join('');
+    let timerHours = Math.floor(timerValue / 10000);
+    let timerMinutes = Math.floor((timerValue % 10000) / 100);
+    let timerSeconds = timerValue % 100;
+
+    if (timerSeconds >= 60) {
+      timerMinutes += Math.floor(timerSeconds / 60);
+      timerSeconds %= 60;
+    };
+
+    if (timerMinutes >= 60) {
+      timerHours += Math.floor(timerMinutes / 60);
+      timerMinutes %= 60;
+    };
+
+    timerMinutes = timerMinutes < 10 ? "0" + timerMinutes : timerMinutes;
+    timerSeconds = timerSeconds < 10 ? "0" + timerSeconds : timerSeconds;
+
+    createTimer(timerHours, timerMinutes, timerSeconds)
+  };
+
+  if (targetEl.classList.contains('deleteBtn') || parentEl.classList.contains('deleteBtn')) {
+    arr.pop();
+
+    arr.unshift('0');
+
+    digitsCount--;
+
+    updateUserDisplay();
+
+    if (digitsCount > 0) return userSubmitBtn.style.display = 'block';
+
+    userSubmitBtn.style.display = 'none';
+  };
+
+  if (targetEl.classList.contains('resetBtn') || parentEl.classList.contains('deleteBtn')) {
+    arr = ['0', '0', '0', '0', '0', '0'];
+
+    digitsCount = 0;
+
+    updateUserDisplay();
+
+    userSubmitBtn.style.display = 'none';
+  };
+
+  if (targetEl.classList.contains('startTimer') || parentEl.classList.contains('startTimer')) {
+    document.querySelector('.accTimerBtn').style.display = 'block';
+
+    if (!timer) {
+      timer = setInterval(function () {
+        updateTimer();
+
+        if (timerSeconds <= 0 && timerMinutes <= 0 && timerHours <= 0) {
+          clearInterval(timer);
+          timer = null;
+          alert("Tempo esgotado!");
+        } else if (timerSeconds <= 0) {
+          if (timerMinutes > 0) {
+            timerMinutes--;
+            timerSeconds = 59;
+          } else if (timerHours > 0) {
+            timerHours--;
+            timerMinutes = 59;
+            timerSeconds = 59;
+          }
+        } else {
+          timerSeconds--;
+        }
+      }, 1000);
+    };
+  }
+})
+
+function updateUserDisplay() {
+  userKeyboardDisplay.innerText =
+  arr.slice(0, 2).join('') + 'h ' +
+  arr.slice(2, 4).join('') + 'm ' +
+  arr.slice(4, 6).join('') + 's';
+};
+
+updateUserDisplay();
 
 // MENU TOGGLE
 
