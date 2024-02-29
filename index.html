@@ -16,6 +16,10 @@
   <main class="main">
     <header class="header">
       <nav class="nav">
+        <button class="clockNavBtn">
+          <div class="clockIcon"><i class="fa-solid fa-clock"></i></div>
+          <div>Relógio</div>
+        </button>
         <button class="stopwatchNavBtn">
           <div class="stopwatchIcon"><i class="fa-solid fa-stopwatch"></i></div>
           <div>Cronômetro</div>
@@ -26,6 +30,12 @@
         </button>
       </nav>
     </header>
+
+    <section id="clock" class="clockSection">
+      <div class="clock"></div>
+      <div class="date"></div>
+    </section>
+
     <section id="stopwatch" class="stopwatchContainer">
       <div class="stopwatchDisplay">
         <span class="stopwatchMinutes">00</span>:
@@ -38,6 +48,7 @@
         <button class="stopStopwatch"><i class="fa-solid fa-pause"></i></button>
       </div>
     </section>
+
     <section id="timer" class="timerSection">
       <div class="keyboardContainer">
         <div class="keyboardDisplay">00h 00m 00s</div>
@@ -63,6 +74,7 @@
         </div>
       </div>
     </section>    
+
   </main>
   <script defer src="script.js"></script>
 </body>

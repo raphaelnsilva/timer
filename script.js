@@ -10,7 +10,25 @@ document.addEventListener('DOMContentLoaded', function () {
   let timerMinutes;
   let timerSeconds;
 
-  // stopwatch
+  // Relógio
+
+  const updateClock = () => {
+    let now = new Date();
+    let hours = now.getHours();
+    let minutes = now.getMinutes();
+    let daysOfWeek = ["Seg", "Ter", "Qua", "Qui", "Sex", "Sab", "Dom"];
+    let dayOfWeek = daysOfWeek[now.getDay() - 1];
+    let monthNames = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
+    let monthName = monthNames[now.getMonth()];
+    
+    hours = hours < 10 ? '0' + hours : hours;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    
+    document.querySelector(".clock").innerHTML = hours + ":" + minutes;
+    document.querySelector(".date").innerHTML = dayOfWeek + ", " + now.getDate() + " de " + monthName;;
+  }
+
+  // Cronômetro
 
   const updateStopwatchDisplay = () => {
     document.querySelector('.stopwatchMinutes').textContent = stopwatchMinutes.toString().padStart(2, '0');
@@ -50,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.stopwatchMinutes').innerHTML = '00';
   }
 
-  // timer
+  // Timer
 
   const updateKeyboardDisplay = () => {
     document.querySelector('.keyboardDisplay').innerText =
@@ -148,25 +166,41 @@ document.addEventListener('DOMContentLoaded', function () {
     }, 1000);
   };
 
-  // eventos 
+  // Eventos
   
   document.querySelector('.nav').addEventListener('click', (e) => {
     const targetEl = e.target;
     const parentEl = targetEl.closest('button');
 
-    if (targetEl.classList.contains('timerNavBtn') || parentEl.classList.contains('timerNavBtn')) {
-      document.querySelector('#timer').style.display = 'flex';
+    if (targetEl.classList.contains('clockNavBtn') || parentEl.classList.contains('clockNavBtn')) {
+      document.querySelector('#clock').style.display = 'flex';
       document.querySelector('#stopwatch').style.display = 'none';
-      document.querySelector('.timerIcon').classList.add('active');
+      document.querySelector('#timer').style.display = 'none';
+      
+      document.querySelector('.clockIcon').classList.add('active');
       document.querySelector('.stopwatchIcon').classList.remove('active');
+      document.querySelector('.timerIcon').classList.remove('active');
     };
 
     if (targetEl.classList.contains('stopwatchNavBtn') || parentEl.classList.contains('stopwatchNavBtn')) {
+      document.querySelector('#clock').style.display = 'none';
       document.querySelector('#stopwatch').style.display = 'flex';
       document.querySelector('#timer').style.display = 'none';
+      
+      document.querySelector('.clockIcon').classList.remove('active');
       document.querySelector('.stopwatchIcon').classList.add('active');
       document.querySelector('.timerIcon').classList.remove('active');
-    }
+    };
+
+    if (targetEl.classList.contains('timerNavBtn') || parentEl.classList.contains('timerNavBtn')) {
+      document.querySelector('#clock').style.display = 'none';
+      document.querySelector('#stopwatch').style.display = 'none';
+      document.querySelector('#timer').style.display = 'flex';
+
+      document.querySelector('.clockIcon').classList.remove('active');
+      document.querySelector('.stopwatchIcon').classList.remove('active');
+      document.querySelector('.timerIcon').classList.add('active');
+    };
   });
 
   document.querySelector('#stopwatch').addEventListener('click', (e) => {
@@ -278,8 +312,11 @@ document.addEventListener('DOMContentLoaded', function () {
     if (targetEl.classList.contains('stopTimer') || parentEl.classList.contains('stopTimer')) return clearInterval(timer);
   });
 
-  updateKeyboardDisplay();
-
   document.querySelector('#stopwatch').style.display = 'flex';
   document.querySelector('.stopwatchIcon').classList.add('active');
+
+  setInterval(updateClock, 1000);
+
+  updateClock();
+  updateKeyboardDisplay();
 });
