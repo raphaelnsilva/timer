@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   const startStopwatch = () => {
+    if(stopwatchIsCalled) return;
+
+    stopwatchIsCalled = true;
+
     stopwatch = setInterval(function () {
       stopwatchMiliseconds++;
 
@@ -208,6 +212,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const parentEl = targetEl.closest('button');
 
     if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch()
+
+    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch();
 
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) return clearInterval(stopwatch);
 
