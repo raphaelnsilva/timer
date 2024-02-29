@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
   let timerHours;
   let timerMinutes;
   let timerSeconds;
+  let timerIsCalled = false;
+  let stopwatchIsCalled = false;
 
   // Relógio
 
@@ -41,6 +43,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     stopwatchIsCalled = true;
 
+    if(!stopwatchIsCalled) return;
+
     stopwatch = setInterval(function () {
       stopwatchMiliseconds++;
 
@@ -57,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
       if (stopwatchMinutes > 59) {
         clearInterval(stopwatch)
         alert('Timer complete!')
+        stopwatchIsCalled = false;
       }
       updateStopwatchDisplay()
     }, 10);
@@ -64,9 +69,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const resetStopwatch = () => {
     clearInterval(stopwatch);
-    miliseconds = 99;
-    seconds = 0;
-    minutes = 0;
+    stopwatchMinutes = 0;
+    stopwatchSeconds = 0;
+    stopwatchMiliseconds = 99;
     document.querySelector('.stopwatchMiliSeconds').innerHTML = '00';
     document.querySelector('.stopwatchSeconds').innerHTML = '00';
     document.querySelector('.stopwatchMinutes').innerHTML = '00';
@@ -149,6 +154,7 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const startTimer = () => {
+    if(!timerIsCalled) return;
     timer = setInterval(function () {
       timerSeconds--;
 
@@ -163,7 +169,11 @@ document.addEventListener('DOMContentLoaded', function () {
       }
 
       if (timerHours < 0) {
+        timerIsCalled = false;
         clearInterval(timer);
+        timerHours = 0;
+        timerMinutes = 0;
+        timerSeconds = 0;
         alert("Timer complete!");
       }
       updateTimerDisplay();
@@ -211,13 +221,25 @@ document.addEventListener('DOMContentLoaded', function () {
     const targetEl = e.target;
     const parentEl = targetEl.closest('button');
 
-    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch()
+    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) {
+      if (stopwatchIsCalled) return;
+      stopwatchIsCalled = true;
+      startStopwatch()
+    }
 
     if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch();
 
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) return clearInterval(stopwatch);
 
-    if (targetEl.classList.contains('resetStopwatch') || parentEl.classList.contains('resetStopwatch')) return resetStopwatch()
+    if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) {
+      clearInterval(stopwatch)
+      stopwatchIsCalled = false;
+    };
+
+    if (targetEl.classList.contains('resetStopwatch') || parentEl.classList.contains('resetStopwatch')){
+      resetStopwatch();
+      stopwatchIsCalled = false;
+    }
   });
 
   document.querySelector('#timer').addEventListener('click', (e) => {
@@ -276,34 +298,32 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelector('.submitBtn').style.display = 'none';
     };
 
-    if (targetEl.classList.contains('resetBtn') || parentEl.classList.contains('deleteBtn')) {
+    if (targetEl.classList.contains('resetTimer') || parentEl.classList.contains('resetTimer')) {
+      clearInterval(timer);
+      timerIsCalled = false;
       arr = ['0', '0', '0', '0', '0', '0'];
-
       digitsCount = 0;
-
+      const parentEl = targetEl.closest('article');
+      parentEl.remove();
       updateKeyboardDisplay();
-
-      document.querySelector('.submitBtn').style.display = 'none';
+      document.querySelector('.keyboardContainer').style.display = 'block';
     };
 
     if (targetEl.classList.contains('startTimer') || parentEl.classList.contains('startTimer')) {
       document.querySelector('.accTimer').style.display = 'block';
-
+      if (timerIsCalled) return;
+      timerIsCalled = true;
       startTimer()
     };
 
-    if ( targetEl.classList.contains('closeTimerBtn') || targetEl.classList.contains('resetTimer') || parentEl.classList.contains('closeTimerBtn') || parentEl.classList.contains('resetTimer')) {
-      const parentEl = targetEl.closest('article');
-
-      parentEl.remove();
-
+    if (targetEl.classList.contains('closeTimerBtn') || parentEl.classList.contains('closeTimerBtn')) {
       clearInterval(timer);
-      
+      timerIsCalled = false;
       arr = ['0', '0', '0', '0', '0', '0'];
       digitsCount = 0;
-
+      const parentEl = targetEl.closest('article');
+      parentEl.remove();
       updateKeyboardDisplay();
-
       document.querySelector('.keyboardContainer').style.display = 'block';
     };
 
@@ -315,7 +335,10 @@ document.addEventListener('DOMContentLoaded', function () {
       updateTimerDisplay()
     };
 
-    if (targetEl.classList.contains('stopTimer') || parentEl.classList.contains('stopTimer')) return clearInterval(timer);
+    if (targetEl.classList.contains('stopTimer') || parentEl.classList.contains('stopTimer')) {
+      clearInterval(timer);
+      timerIsCalled = false;
+    }
   });
 
   document.querySelector('#stopwatch').style.display = 'flex';
