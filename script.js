@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.stopwatchMinutes').textContent = stopwatchMinutes.toString().padStart(2, '0');
     document.querySelector('.stopwatchSeconds').textContent = stopwatchSeconds.toString().padStart(2, '0');
     document.querySelector('.stopwatchMiliSeconds').textContent = stopwatchMiliseconds.toString().padStart(2, '0');
-  }
+  };
 
   const startStopwatch = () => {
     if(stopwatchIsCalled) return;
@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.querySelector('.stopwatchMiliSeconds').innerHTML = '00';
     document.querySelector('.stopwatchSeconds').innerHTML = '00';
     document.querySelector('.stopwatchMinutes').innerHTML = '00';
-  }
+    stopwatchIsCalled = false;
+  };
 
   // Timer
 
@@ -154,7 +155,10 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   const startTimer = () => {
-    if(!timerIsCalled) return;
+    if(timerIsCalled) return;
+
+    timerIsCalled = true;
+
     timer = setInterval(function () {
       timerSeconds--;
 
@@ -223,17 +227,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch();
 
-    if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) return clearInterval(stopwatch);
-
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) {
-      clearInterval(stopwatch)
-      stopwatchIsCalled = false;
-    };
-
-    if (targetEl.classList.contains('resetStopwatch') || parentEl.classList.contains('resetStopwatch')){
-      resetStopwatch();
-      stopwatchIsCalled = false;
+      clearInterval(stopwatch);
+      stopwatchIsCalled = false
     }
+
+    if (targetEl.classList.contains('resetStopwatch') || parentEl.classList.contains('resetStopwatch')) return resetStopwatch();
   });
 
   document.querySelector('#timer').addEventListener('click', (e) => {
@@ -305,8 +304,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     if (targetEl.classList.contains('startTimer') || parentEl.classList.contains('startTimer')) {
       document.querySelector('.accTimer').style.display = 'block';
-      if (timerIsCalled) return;
-      timerIsCalled = true;
       startTimer()
     };
 
@@ -332,7 +329,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (targetEl.classList.contains('stopTimer') || parentEl.classList.contains('stopTimer')) {
       clearInterval(timer);
       timerIsCalled = false;
-    }
+    };
   });
 
   document.querySelector('#stopwatch').style.display = 'flex';
