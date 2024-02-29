@@ -40,6 +40,7 @@ body {
   font-weight: 600;
 }
 
+.clockNavBtn,
 .timerNavBtn,
 .stopwatchNavBtn {
   border: none;
@@ -53,11 +54,32 @@ body {
   cursor: pointer;
 }
 
+#clock,
 #stopwatch,
 #timer,
 #keyboard {
   display: none;
 }
+
+.clockSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  height: 50vh;
+  color: #fff;
+}
+
+.clock {
+  font-size: 90px;
+}
+
+.date {
+  font-size: 20px;
+}
+
+/* CRONÔMETRO */
 
 .stopwatchContainer {
   display: flex;
