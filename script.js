@@ -221,12 +221,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const targetEl = e.target;
     const parentEl = targetEl.closest('button');
 
-    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) {
-      if (stopwatchIsCalled) return;
-      stopwatchIsCalled = true;
-      startStopwatch()
-    }
-
     if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch();
 
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) return clearInterval(stopwatch);
