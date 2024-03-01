@@ -43,8 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     stopwatchIsCalled = true;
 
-    if(!stopwatchIsCalled) return;
-
     stopwatch = setInterval(function () {
       stopwatchMiliseconds++;
 
@@ -69,14 +67,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const resetStopwatch = () => {
     clearInterval(stopwatch);
+    clearInterval(flashingInterval)
     stopwatchMinutes = 0;
     stopwatchSeconds = 0;
     stopwatchMiliseconds = 99;
     document.querySelector('.stopwatchMiliSeconds').innerHTML = '00';
     document.querySelector('.stopwatchSeconds').innerHTML = '00';
     document.querySelector('.stopwatchMinutes').innerHTML = '00';
+    document.querySelector('.stopwatchDisplay').style.visibility = 'visible';
     stopwatchIsCalled = false;
   };
+
+  const pauseStopwatch = () => {
+    if (!stopwatchIsCalled) return;
+
+    clearInterval(stopwatch);
+
+    // updateStopwatchDisplay();
+
+    flashingInterval = setInterval(() => {
+      const display = document.querySelector('.stopwatchDisplay');
+      display.style.visibility = (display.style.visibility === 'hidden') ? 'visible' : 'hidden';
+    }, 500);
+  }
 
   // Timer
 
@@ -105,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const timerTitle = document.createElement('p');
     timerTitle.classList.add('timerTitle');
-    timerTitle.innerHTML = `Timer ${timerHours !== 0 ? `de ${timerHours}hrs e` : 'de'} ${timerMinutes}m`;
+    timerTitle.innerHTML = `Timer ${timerHours > 0 ? `de ${timerHours}h e` : 'de'} ${timerMinutes > 0 ? `${timerMinutes}m` : `${timerSeconds}s`}`;
     timerHeader.appendChild(timerTitle);
 
     const closeTimerBtn = document.createElement('button');
@@ -225,10 +238,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const targetEl = e.target;
     const parentEl = targetEl.closest('button');
 
-    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) return startStopwatch();
+    if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) { 
+      startStopwatch();
+      clearInterval(flashingInterval);
+      document.querySelector('.stopwatchDisplay').style.visibility = 'visible';
+    };
 
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) {
-      clearInterval(stopwatch);
+      pauseStopwatch();
       stopwatchIsCalled = false
     }
 
