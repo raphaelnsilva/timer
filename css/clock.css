@@ -1,0 +1,17 @@
+.clockSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  height: 50vh;
+  color: #fff;
+}
+
+.clock {
+  font-size: 90px;
+}
+
+.date {
+  font-size: 20px;
+}
