@@ -1,34 +1,45 @@
-  document.addEventListener('DOMContentLoaded', () => {
-    let stopwatch;
-    let stopwatchMinutes = 0;
-    let stopwatchSeconds = 0;
-    let stopwatchMiliseconds = 99;
-    let stopwatchIsCalled = false;
-    let timesArr = new Array();
+document.addEventListener('DOMContentLoaded', () => {
+  let stopwatch;
+  let stopwatchMinutes = 0;
+  let stopwatchSeconds = 0;
+  let stopwatchMiliseconds = 99;
+  let stopwatchIsCalled = false;
+  let timesArr = new Array();
+  let flashingInterval;
 
-    const saveTime = () => {
-      const lastTime = timesArr[timesArr.length - 1];
+  const deleteTime = (index) => {
+    timesArr.splice(index, 1);
+    updateList();
+  }
 
-      const times = document.createElement('div');
-      times.classList.add('time');
-      
+  const updateList = () => {
+    const timesContainer = document.querySelector('.times');
+    // limpa o conteudo antes de executar o forEach
+    timesContainer.innerHTML = '';
+
+    timesArr.forEach((time, index) => {
+      // cria o elemento para guardar o tempo
+      const timeEl = document.createElement('li');
+      timeEl.classList.add('timeElement');
+      timesContainer.appendChild(timeEl);
+
+      // cria o elemento do numero do timer
       const timeNumber = document.createElement('p');
-      timeNumber.textContent = `Nº${timesArr.length}`;
-      times.appendChild(timeNumber);
+      timeNumber.textContent = `N°${index + 1}`;
+      timeEl.appendChild(timeNumber);
 
+      // cria o elemento com o tempo
       const currentTime = document.createElement('p');
-      currentTime.classList.add('currentTime')
-      currentTime.textContent = lastTime;
-      times.appendChild(currentTime);
+      currentTime.textContent = `${time}`;
+      timeEl.appendChild(currentTime);
 
-      const deleteTime = document.createElement('button');
-      deleteTime.innerHTML = '<i class="fa-solid fa-trash"></i>';
-      deleteTime.classList.add('deleteTime');
-      times.appendChild(deleteTime);
-
-      const stopwatch = document.querySelector('#stopwatch');
-      stopwatch.appendChild(times);
-    }
+      // cria o botão de deletar
+      const deleteBtn = document.createElement('button');
+      deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+      timeEl.appendChild(deleteBtn);
+      deleteBtn.addEventListener('click', () => deleteTime(index));
+    });
+  };
 
   const updateStopwatchDisplay = () => {
     document.querySelector('.stopwatchMinutes').textContent = stopwatchMinutes.toString().padStart(2, '0');
@@ -41,6 +52,8 @@
     const parentEl = targetEl.closest('button');
 
     if (targetEl.classList.contains('startStopwatch') || parentEl.classList.contains('startStopwatch')) {
+      document.querySelector('.saveTime').style.display = 'block';
+
       if (stopwatchIsCalled) return;
 
       stopwatchIsCalled = true;
@@ -71,6 +84,8 @@
     };
 
     if (targetEl.classList.contains('stopStopwatch') || parentEl.classList.contains('stopStopwatch')) {
+      document.querySelector('.saveTime').style.display = 'none';
+
       if (!stopwatchIsCalled) return;
 
       stopwatchIsCalled = false;
@@ -93,62 +108,19 @@
       document.querySelector('.stopwatchSeconds').innerHTML = '00';
       document.querySelector('.stopwatchMinutes').innerHTML = '00';
       document.querySelector('.stopwatchDisplay').style.visibility = 'visible';
+      document.querySelector('.times').innerHTML = '';
+      document.querySelector('.saveTime').style.display = 'none';
+      timesArr = []
       stopwatchIsCalled = false;
     };
 
     if (targetEl.classList.contains('saveTime') || parentEl.classList.contains('saveTime')) {
-      timesArr.push(`${stopwatchMinutes < 10 ? '0' + stopwatchMinutes : stopwatchMinutes} ${stopwatchSeconds < 10 ? '0' + stopwatchSeconds : stopwatchSeconds}.${stopwatchMiliseconds < 10 ? '0' + stopwatchMiliseconds : stopwatchMiliseconds}`);
-      
-      saveTime();
+      if (timesArr.length < 100) {
+        timesArr.push(`${stopwatchMinutes < 10 ? '0' + stopwatchMinutes : stopwatchMinutes} ${stopwatchSeconds < 10 ? '0' + stopwatchSeconds : stopwatchSeconds}.${stopwatchMiliseconds < 10 ? '0' + stopwatchMiliseconds : stopwatchMiliseconds}`);
+        updateList();
+      } else {
+        return
+      }
     }
-
-    if (targetEl.classList.contains('deleteTime') || parentEl.classList.contains('deleteTime')) {
-      const timeEl = targetEl.closest('.time');
-      const currentTimeEl = timeEl.querySelector('.currentTime');
-      const currentTime = currentTimeEl.textContent
-
-      // Encontre o índice do tempo no array
-      const indexToRemove = timesArr.indexOf(currentTime);
-      const nextIndex = indexToRemove + 1;
-      console.log('indexToRemove', indexToRemove)
-      console.log('nextIndex', nextIndex)
-      timesArr.splice(indexToRemove, 1);
-      console.log(timesArr)
-      timeEl.remove()
-
-      saveTime();
-
-
-      // // Remova o tempo do array se encontrado
-      // if (indexToRemove !== -1) {
-      //   timesArr.splice(indexToRemove, 1);
-
-      //   // Remova o elemento da interface do usuário
-      //   timeEl.remove();
-
-      //   // Atualize a exibição na tela, se necessário
-      //   // saveTime();
-      // } else {
-      //   console.log('Tempo não encontrado no array.');
-      // }
-    }
-
-    // const currentTime = document.querySelector('.currentTime').innerText
-    // console.log(currentTime)
-
-    // if (timesElement) {
-    //   // Obtenha o número do tempo a ser removido
-    //   const timeNumber = timesElement.querySelector('span').textContent;
-    //   console.log(timeNumber)
-    //   const indexToRemove = parseInt(timeNumber.replace('Nº', '')) - 1;
-
-    //   // Remova o tempo do array
-    //   timesArr.splice(indexToRemove, 1);
-
-    //   // Atualize a exibição na tela
-    //   saveTime()
-    // }
-  
-
   });
 })

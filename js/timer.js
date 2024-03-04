@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let timerMinutes;
   let timerSeconds;
   let timerIsCalled = false;
+  let flashingInterval;
 
   const updateKeyboardDisplay = () => {
     document.querySelector('.keyboardDisplay').innerText =

@@ -6,11 +6,12 @@
   align-items: center;
   justify-content: center;
   gap: 24px;
-  width: 90vh;
+  width: 90vw;
   height: 224px;
   max-width: 300px;
   border-radius: 20px;
   background-color: #2f2f2f;
+  z-index: 1;
 }
 
 .stopwatchDisplay {
@@ -78,6 +79,7 @@
 }
 
 .saveTime {
+  display: none;
   background-color: #f59c36;
   border: none;
   color: #2f2f2f;
@@ -93,9 +95,33 @@
   background-color: #f58606;
 }
 
-.time {
+.times {
   color: #fff;
+  list-style: none;
+  color: #9b9b9b;
+  font-size: 20px;
+  height: 70%;
+  overflow-y: auto;
+  margin: 10px 0;
+}
+
+.timeElement {
   display: flex;
   justify-content: center;
-  gap: 20px;
+  align-items: center;
+  gap: 30px;
+  border-bottom: 1px solid #292929;
+}
+
+.timeElement button {
+  border: none;
+  background-color: transparent;
+  color: #ff6969;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+#stopwatch {
+  height: 60vh;
 }
