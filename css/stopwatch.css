@@ -93,6 +93,9 @@
   background-color: #f58606;
 }
 
-.times {
+.time {
   color: #fff;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }

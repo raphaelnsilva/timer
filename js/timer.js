@@ -57,21 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const toolbar = document.createElement('div');
     toolbar.classList.add('toolbar');
     timerContainer.appendChild(toolbar);
+    
+    const startTimerBtn = document.createElement('button');
+    startTimerBtn.classList.add('startTimer');
+    startTimerBtn.innerHTML = '<i class="fa-solid fa-play">';
+    toolbar.appendChild(startTimerBtn);
+    
+    const stopTimer = document.createElement('button');
+    stopTimer.classList.add('stopTimer');
+    stopTimer.innerHTML = '<i class="fa-solid fa-pause">';
+    toolbar.appendChild(stopTimer);
 
     const accTimerBtn = document.createElement('button');
     accTimerBtn.classList.add('accTimer');
     accTimerBtn.innerHTML = '+1:00';
     toolbar.appendChild(accTimerBtn);
-
-    const startTimerBtn = document.createElement('button');
-    startTimerBtn.classList.add('startTimer');
-    startTimerBtn.innerHTML = '<i class="fa-solid fa-play">';
-    toolbar.appendChild(startTimerBtn);
-
-    const stopTimer = document.createElement('button');
-    stopTimer.classList.add('stopTimer');
-    stopTimer.innerHTML = '<i class="fa-solid fa-pause">';
-    toolbar.appendChild(stopTimer);
 
     const timerSection = document.querySelector('#timer');
     timerSection.appendChild(timerContainer);
@@ -79,36 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updateKeyboardDisplay();
 
     document.querySelector('.submitBtn').style.display = 'none';
-  };
-
-  const startTimer = () => {
-    if (timerIsCalled) return;
-
-    timerIsCalled = true;
-
-    timer = setInterval(function () {
-      timerSeconds--;
-
-      if (timerSeconds < 0) {
-        timerMinutes--;
-        timerSeconds = 59;
-      }
-
-      if (timerMinutes < 0) {
-        timerHours--;
-        timerMinutes = 59;
-      }
-
-      if (timerHours < 0) {
-        timerIsCalled = false;
-        clearInterval(timer);
-        timerHours = 0;
-        timerMinutes = 0;
-        timerSeconds = 0;
-        alert("Timer complete!");
-      }
-      updateTimerDisplay();
-    }, 1000);
   };
 
   document.querySelector('#timer').addEventListener('click', (e) => {
@@ -176,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targetEl.classList.contains('resetTimer') || parentEl.classList.contains('resetTimer')) {
       clearInterval(timer);
+      clearInterval(flashingInterval);
       timerIsCalled = false;
       arr = ['0', '0', '0', '0', '0', '0'];
       digitsCount = 0;
@@ -187,11 +158,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (targetEl.classList.contains('startTimer') || parentEl.classList.contains('startTimer')) {
       document.querySelector('.accTimer').style.display = 'block';
-      startTimer()
+      
+      if (timerIsCalled) return;
+      
+      timerIsCalled = true;
+      
+      timer = setInterval( function() {
+        timerSeconds--;
+        
+        if (timerSeconds < 0) {
+          timerMinutes--;
+          timerSeconds = 59;
+        }
+        
+        if (timerMinutes < 0) {
+          timerHours--;
+          timerMinutes = 59;
+        }
+        
+        if (timerHours < 0) {
+          timerIsCalled = false;
+          clearInterval(timer);
+          timerHours = 0;
+          timerMinutes = 0;
+          timerSeconds = 0;
+          alert("Timer complete!");
+        }
+        updateTimerDisplay();
+      }, 1000);
+      
+      clearInterval(flashingInterval);
+      document.querySelector('.timerDisplay').style.visibility = 'visible';
     };
 
     if (targetEl.classList.contains('closeTimerBtn') || parentEl.classList.contains('closeTimerBtn')) {
       clearInterval(timer);
+      clearInterval(flashingInterval);
       timerIsCalled = false;
       arr = ['0', '0', '0', '0', '0', '0'];
       digitsCount = 0;
@@ -210,8 +212,17 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     if (targetEl.classList.contains('stopTimer') || parentEl.classList.contains('stopTimer')) {
-      clearInterval(timer);
+      if (!timerIsCalled) return;
+
       timerIsCalled = false;
+
+      clearInterval(timer);
+
+      flashingInterval = setInterval(() => {
+        const display = document.querySelector('.timerDisplay');
+        display.style.visibility = (display.style.visibility === 'hidden') ? 'visible' : 'hidden';
+      }, 500);
+      document.querySelector('.accTimer').style.display = 'none';
     };
   });
   
