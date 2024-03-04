@@ -1,0 +1,36 @@
+.header {
+  background-color: #2f2f2f;
+  width: 100vw;
+}
+
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  align-items: center;
+  height: 78px;
+}
+
+.nav i {
+  font-size: 20px;
+  padding: 6px 24px;
+}
+
+.nav div {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.clockNavBtn,
+.timerNavBtn,
+.stopwatchNavBtn {
+  border: none;
+  background: transparent;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
