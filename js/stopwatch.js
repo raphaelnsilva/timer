@@ -14,26 +14,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const updateList = () => {
     const timesContainer = document.querySelector('.times');
-    // limpa o conteudo antes de executar o forEach
     timesContainer.innerHTML = '';
 
     timesArr.forEach((time, index) => {
-      // cria o elemento para guardar o tempo
       const timeEl = document.createElement('li');
       timeEl.classList.add('timeElement');
       timesContainer.appendChild(timeEl);
 
-      // cria o elemento do numero do timer
       const timeNumber = document.createElement('p');
       timeNumber.textContent = `N°${index + 1}`;
       timeEl.appendChild(timeNumber);
 
-      // cria o elemento com o tempo
       const currentTime = document.createElement('p');
       currentTime.textContent = `${time}`;
       timeEl.appendChild(currentTime);
 
-      // cria o botão de deletar
       const deleteBtn = document.createElement('button');
       deleteBtn.innerHTML = '<i class="fa-solid fa-xmark"></i>';
       timeEl.appendChild(deleteBtn);
